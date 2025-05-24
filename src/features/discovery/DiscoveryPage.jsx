@@ -82,8 +82,7 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
         setCurrentPage(1);
       }
     }
-  };
-  const handleConnect = (studentToConnect) => {
+  };  const handleConnect = (studentToConnect) => {
     const status = checkConnectionStatus(studentToConnect.id);
 
     if (status === 'connected' || status === 'request_sent') { // Check both
@@ -107,6 +106,20 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
     }
   };
 
+  const handleDisconnect = (studentId) => {
+    const student = students.find(s => s.id === studentId);
+    if (student) {
+      setToastMessage(`Removed connection with ${student.name}.`);
+      setToastType('success');
+      // Call the callback from DashboardPage to update connection count
+      if (onConnectionsChange) {
+        onConnectionsChange();
+      }
+      // Force re-render to update connection status
+      setForceUpdate(prev => prev + 1);
+    }
+  };
+
   return (
     <div className=" md:p-6 bg-gray-50 min-h-full">
       <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
@@ -126,13 +139,13 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
                 placeholder="Search by name, skill, department..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:border-[#3B526F]"
                 aria-label="Search for students"
                 autoComplete="off"
               />
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-5 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
+                className="bg-[#3B526F] hover:bg-[#1E2A3A] text-white font-semibold py-3 px-5 rounded-md focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:ring-opacity-50 transition duration-150 ease-in-out"
                 disabled={isLoading && appliedSearchTerm !== searchTerm}
                 aria-label="Submit search"
                 aria-busy={isLoading && searchTerm === appliedSearchTerm ? "true" : "false"}
@@ -149,7 +162,7 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
               value={departmentFilter}
               onChange={handleFilterChange}
               disabled={isLoading}
-              className="w-full sm:w-auto p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="w-full sm:w-auto p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:border-[#3B526F] sm:text-sm"
               aria-label="Filter students by department"
               aria-disabled={isLoading ? "true" : "false"}
             >
@@ -169,11 +182,11 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
           <p className="text-gray-600 text-center py-10 text-lg">No students found matching your criteria.</p>
         )}        {students.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {students.map((student) => (
-              <StudentCard
-                key={`${student.id}-${connectionCountTrigger}`}
+            {students.map((student) => (              <StudentCard
+                key={`${student.id}-${forceUpdate}`}
                 student={student}
                 onConnect={handleConnect}
+                onDisconnect={handleDisconnect}
                 connectionStatus={checkConnectionStatus(student.id)} // Pass current status
               />
             ))}
@@ -187,7 +200,7 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
           <div className="text-center mt-8">
             <button
               onClick={handleLoadMore}
-              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
+              className="bg-[#3B526F] hover:bg-[#1E2A3A] text-white font-semibold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:ring-opacity-50 transition duration-150 ease-in-out"
               disabled={isLoading}
             >
               Load More Students

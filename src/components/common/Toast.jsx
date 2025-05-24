@@ -19,10 +19,9 @@ function Toast({ message, type = 'info', duration = 3000, onClose }) {
   if (!visible || !message) {
     return null;
   }
-
   const types = {
-    info: 'bg-white border-blue-500 text-gray-900',
-    success: 'bg-white border-green-500 text-gray-900',
+    info: 'bg-white border-[#3B526F] text-gray-900',
+    success: 'bg-white border-[#3B526F] text-gray-900',
     error: 'bg-white border-red-500 text-gray-900'
   };
 

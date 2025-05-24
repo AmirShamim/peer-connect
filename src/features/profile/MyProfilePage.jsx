@@ -3,7 +3,7 @@ import { getProfile, saveProfile } from '../../services/profileService';
 import ProfileForm from '../../components/common/ProfileForm';
 import Toast from '../../components/common/Toast'; // Assuming you have a Toast component
 
-function MyProfilePage() {
+function MyProfilePage({ onProfileUpdate }) {
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,13 +19,17 @@ function MyProfilePage() {
         // setIsEditing(true); // Optionally open form if profile is new/empty
     }
   }, []);
-
   const handleSaveProfile = (updatedProfile) => {
     saveProfile(updatedProfile);
     setProfile(updatedProfile);
     setIsEditing(false);
     setToastMessage('Profile updated successfully!');
     setToastType('success');
+    
+    // Notify the parent (DashboardPage) that the profile was updated
+    if (onProfileUpdate) {
+      onProfileUpdate();
+    }
   };
 
   const handleEditToggle = () => {
@@ -40,9 +44,8 @@ function MyProfilePage() {
     // This case should ideally not be hit if getProfile always returns an object
     return <div className="p-6 text-center text-red-500">Could not load profile.</div>;
   }
-  
-  // Fallback image if profilePicture is not set or is invalid
-  const profileImageUrl = profile.profilePicture || 'https://placehold.co/150x150/007bff/FFFFFF/png?text=User';
+    // Fallback image if profilePicture is not set or is invalid
+  const profileImageUrl = profile.profilePicture || 'https://placehold.co/150x150/3B526F/FFFFFF/png?text=User';
 
 
   return (
@@ -60,7 +63,7 @@ function MyProfilePage() {
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">My Profile</h2>
             <button
               onClick={handleEditToggle}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="px-4 py-2 bg-[#3B526F] hover:bg-[#1E2A3A] text-white text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#748AA6]"
             >
               Edit Profile
             </button>
@@ -70,8 +73,8 @@ function MyProfilePage() {
             <img
               src={profileImageUrl}
               alt={profile.name || 'User profile'}
-              className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-blue-200 shadow-md"
-              onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150/007bff/FFFFFF?Text=User'; }} // Fallback for broken image links
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-[#748AA6]/30 shadow-md"
+              onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150/3B526F/FFFFFF?Text=User'; }} // Fallback for broken image links
             />
             <div className="text-center sm:text-left">
               <h3 className="text-xl md:text-2xl font-bold text-gray-700">{profile.name || 'Your Name'}</h3>

@@ -77,3 +77,107 @@ export const checkConnectionStatus = (studentId) => {
   if (sent) return 'request_sent'; // If you distinguish between sent and accepted
   return 'not_connected';
 };
+
+// Get user's profile for skills matching
+const getUserProfile = () => {
+  try {
+    const profile = localStorage.getItem('peerConnectUserProfile');
+    const parsedProfile = profile ? JSON.parse(profile) : { skills: '', projectAreas: '' };
+    console.log('User profile loaded:', parsedProfile);
+    return parsedProfile;
+  } catch (error) {
+    console.error("Error getting user profile:", error);
+    return { skills: '', projectAreas: '' };
+  }
+};
+
+// Helper function to parse comma-separated skills/project areas
+const parseSkillsOrProjects = (skillsString) => {
+  if (!skillsString) return [];
+  // Split by comma and ensure all parts are properly trimmed and lowercased
+  return skillsString.split(',')
+    .map(skill => skill.trim().toLowerCase())
+    .filter(skill => skill.length > 0);
+};
+
+// Calculate skills matched with connections
+export const getSkillsMatched = () => {
+  try {
+    const connections = getAcceptedConnections();
+    const userProfile = getUserProfile();
+    const userSkills = parseSkillsOrProjects(userProfile.skills);
+    
+    if (userSkills.length === 0) return 0;
+    
+    // Use a Set to track unique matched skills
+    const matchedSkills = new Set();
+    
+    connections.forEach(connection => {
+      const connectionSkills = parseSkillsOrProjects(connection.skills);
+      
+      // Find matching skills between user and this connection
+      connectionSkills.forEach(skill => {
+        if (userSkills.includes(skill)) {
+          matchedSkills.add(skill);
+        }
+      });
+    });
+    
+    return matchedSkills.size;
+  } catch (error) {
+    console.error("Error calculating skills matched:", error);
+    return 0;
+  }
+};
+
+// Calculate shared project tags with connections
+export const getProjectTags = () => {
+  try {
+    const connections = getAcceptedConnections();
+    const userProfile = getUserProfile();
+    const userProjectAreas = parseSkillsOrProjects(userProfile.projectAreas);
+    
+    if (userProjectAreas.length === 0) return 0;
+    
+    // Use a Set to track unique shared project areas
+    const sharedProjectTags = new Set();
+    
+    connections.forEach(connection => {
+      const connectionProjects = parseSkillsOrProjects(connection.projectAreas);
+      
+      // Find matching project areas between user and this connection
+      connectionProjects.forEach(project => {
+        if (userProjectAreas.includes(project)) {
+          sharedProjectTags.add(project);
+        }
+      });
+    });
+    
+    return sharedProjectTags.size;
+  } catch (error) {
+    console.error("Error calculating project tags:", error);
+    return 0;
+  }
+};
+
+// Get dashboard stats (consolidates all stats)
+export const getDashboardStats = () => {
+  try {
+    const connections = getAcceptedConnections();
+    const skillsMatched = getSkillsMatched();
+    const projectTags = getProjectTags();
+    
+    return {
+      connections: connections.length,
+      skillsMatched,
+      projectTags
+    };
+  } catch (error) {
+    console.error("Error getting dashboard stats:", error);
+    return {
+      connections: 0,
+      skillsMatched: 0,
+      projectTags: 0
+    };
+  }
+};

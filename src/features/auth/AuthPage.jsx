@@ -16,8 +16,7 @@ function AuthPage({ onLoginSuccess }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md text-center">
-        <h1 className="text-3xl font-bold text-blue-600 mb-6">Welcome to PeerConnect</h1>
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md text-center">        <h1 className="text-3xl font-bold text-[#3B526F] mb-6">Welcome to PeerConnect</h1>
         <p className="text-gray-600 mb-8">
           Connect with fellow students, share ideas, and build your network.
         </p>
@@ -58,7 +57,7 @@ function AuthPage({ onLoginSuccess }) {
           </div>          <button
             onClick={handleSimulatedLogin}
             disabled={isLoading}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
+            className="w-full bg-[#3B526F] hover:bg-[#1E2A3A] text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:ring-opacity-50 disabled:opacity-50"
             aria-busy={isLoading ? "true" : "false"}
             aria-live="polite"
           >

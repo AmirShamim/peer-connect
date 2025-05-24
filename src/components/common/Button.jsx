@@ -15,7 +15,7 @@ function Button({
   const baseClasses = 'font-medium rounded focus:outline-none focus:ring-1 transition-all duration-200 ease-in-out';
   
   const variantClasses = {
-    primary: 'bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-200',
+    primary: 'bg-[#3B526F] hover:bg-[#1E2A3A] text-white focus:ring-[#748AA6]',
     secondary: 'bg-gray-50 hover:bg-gray-100 text-gray-700 focus:ring-gray-200',
     success: 'bg-green-500 hover:bg-green-600 text-white focus:ring-green-200',
     danger: 'bg-red-500 hover:bg-red-600 text-white focus:ring-red-200',

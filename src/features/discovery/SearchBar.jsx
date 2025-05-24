@@ -25,7 +25,7 @@ function SearchBar({
         />
         <button
           type="submit"
-          className="button-minimal bg-blue-500 hover:bg-blue-600 text-white"
+          className="button-minimal bg-[#3B526F] hover:bg-[#1E2A3A] text-white"
           disabled={isLoading && appliedSearchTerm !== searchTerm}
           aria-label="Submit search"
           aria-busy={isLoading && searchTerm === appliedSearchTerm ? "true" : "false"}

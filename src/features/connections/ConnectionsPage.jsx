@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   getAcceptedConnections,
-  removeConnection,
 } from "../../services/connectionService";
 import StudentCard from "../../components/common/StudentCard";
 import Toast from "../../components/common/Toast";
 import Button from "../../components/common/Button";
 
 // Accept connectionCountTrigger prop and onTabChange callback
-function ConnectionsPage({ onConnectionsChange, connectionCountTrigger, onTabChange }) {
-  const [connections, setConnections] = useState([]);
+function ConnectionsPage({
+  onConnectionsChange,
+  connectionCountTrigger,
+  onTabChange,
+}) {  const [connections, setConnections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("info");
-  const [removingConnectionId, setRemovingConnectionId] = useState(null);
 
   const loadConnections = useCallback(async () => {
     setIsLoading(true);
@@ -29,87 +30,30 @@ function ConnectionsPage({ onConnectionsChange, connectionCountTrigger, onTabCha
       setIsLoading(false);
     }
   }, []); // loadConnections itself doesn't need dependencies if it's just fetching.
-
   // useEffect to load connections when the component mounts or when connectionCountTrigger changes
   useEffect(() => {
     loadConnections();
   }, [loadConnections, connectionCountTrigger]); // Add connectionCountTrigger to dependencies
 
-  const handleRemoveConnection = async (studentToRemove) => {
-    setRemovingConnectionId(studentToRemove.id);
-    try {
-      await removeConnection(studentToRemove.id);
-      setToastMessage(`Removed ${studentToRemove.name} from your connections.`);
-      setToastType("success");
-      // After successfully removing, notify DashboardPage to update its stats
-      if (onConnectionsChange) {
-        onConnectionsChange(); // This will update connectionCount in DashboardPage,
-        // which in turn triggers the useEffect above to reload connections.
+  const handleRemoveConnection = async (studentId) => {
+    const student = connections.find(s => s.id === studentId);
+    if (student) {
+      try {
+        // removeConnection is called within StudentCard, so we don't need to call it here
+        // Just update the local state and notify parent
+        setConnections(prev => prev.filter(conn => conn.id !== studentId));
+        setToastMessage(`Removed ${student.name} from your connections.`);
+        setToastType("success");
+        // After successfully removing, notify DashboardPage to update its stats
+        if (onConnectionsChange) {
+          onConnectionsChange();
+        }
+      } catch (error) {
+        setToastMessage("Failed to remove connection. Please try again.");
+        setToastType("error");
       }
-    } catch (error) {
-      setToastMessage("Failed to remove connection. Please try again.");
-      setToastType("error");
-    } finally {
-      setRemovingConnectionId(null);
     }
   };
-
-  // ... RemoveButton component and the rest of the JSX remains the same
-  // ...existing code...
-  const RemoveButton = ({ student }) => (
-    <button
-      onClick={() => handleRemoveConnection(student)}
-      disabled={removingConnectionId === student.id}
-      className={`
-        absolute top-3 right-3 
-        ${
-          removingConnectionId === student.id
-            ? "bg-gray-400"
-            : "bg-red-500 hover:bg-red-700"
-        } 
-        text-white text-xs font-bold p-2 rounded-full 
-        focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50
-        opacity-0 group-hover:opacity-100 transition-all duration-200
-        disabled:cursor-not-allowed
-      `}
-      title="Remove Connection"
-      aria-label={`Remove ${student.name} from connections`}
-    >
-      {removingConnectionId === student.id ? (
-        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-            fill="none"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </svg>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      )}
-    </button>
-  );
 
   if (isLoading && connections.length === 0) {
     return (
@@ -144,7 +88,7 @@ function ConnectionsPage({ onConnectionsChange, connectionCountTrigger, onTabCha
           <div className="text-center py-10">
             <p className="text-gray-600 text-lg mb-4">
               You haven't made any connections yet.
-            </p>            <Button
+            </p>{" "}            <Button className="cursor-pointer"
               variant="primary"
               onClick={() => {
                 if (onTabChange) {
@@ -154,18 +98,16 @@ function ConnectionsPage({ onConnectionsChange, connectionCountTrigger, onTabCha
             >
               Start Browsing Students
             </Button>
-          </div>
-        ) : (
+          </div>        ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {connections.map((student) => (
-              <div key={student.id} className="relative group">
-                <StudentCard
-                  student={student}
-                  connectionStatus="connected"
-                  onConnect={null}
-                />
-                <RemoveButton student={student} />
-              </div>
+              <StudentCard
+                key={student.id}
+                student={student}
+                connectionStatus="connected"
+                onConnect={null}
+                onDisconnect={handleRemoveConnection}
+              />
             ))}
           </div>
         )}
