@@ -4,8 +4,8 @@ import { addConnection, addSentRequest, checkConnectionStatus } from '../../serv
 import StudentCard from '../../components/common/StudentCard';
 import Toast from '../../components/common/Toast';
 
-// Accept onConnectionsChange prop
-function DiscoveryPage({ onConnectionsChange }) {
+// Accept onConnectionsChange and connectionCountTrigger props
+function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
   const [students, setStudents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -25,8 +25,6 @@ function DiscoveryPage({ onConnectionsChange }) {
     currentSearchTerm = appliedSearchTerm,
     currentFilters = { department: departmentFilter }
   ) => {
-    // ... (existing fetchStudents logic from previous correct version)
-// ...existing code...
     setIsLoading(true);
     try {
       const response = await getStudents(pageToFetch, currentSearchTerm, currentFilters);
@@ -44,12 +42,11 @@ function DiscoveryPage({ onConnectionsChange }) {
     } finally {
       setIsLoading(false);
     }
-// ...existing code...
   }, [appliedSearchTerm, departmentFilter]);
 
   useEffect(() => {
     fetchStudents(1, false, appliedSearchTerm, { department: departmentFilter });
-  }, [appliedSearchTerm, departmentFilter, fetchStudents]);
+  }, [appliedSearchTerm, departmentFilter, fetchStudents, connectionCountTrigger]); // Add connectionCountTrigger
 
   useEffect(() => {
     if (availableDepartments.length === 0) {

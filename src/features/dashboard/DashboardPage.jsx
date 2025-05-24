@@ -51,7 +51,10 @@ function DashboardPage({ onLogout }) {
           }}
           className="w-full"
         >
-          <DiscoveryPage onConnectionsChange={updateDashboardStats} />
+          <DiscoveryPage
+            onConnectionsChange={updateDashboardStats}
+            connectionCountTrigger={connectionCount}
+          />
         </div>
         <div
           style={{
