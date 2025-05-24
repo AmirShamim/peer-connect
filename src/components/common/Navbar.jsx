@@ -9,35 +9,37 @@ function Navbar({ activeTab, onTabChange, onLogout }) {
   };
   
   return (
-    <header className="mb-6 pb-4 border-b border-gray-200">
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-        <h1 className="text-3xl sm:text-4xl font-bold text-blue-600">PeerConnect</h1>
-        <button
-          onClick={onLogout}
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
-          aria-label="Logout"
-        >
-          Logout
-        </button>
-      </div>
-      <nav className="mt-5" aria-label="Main navigation">
-        <ul className="flex flex-wrap space-x-2 sm:space-x-4 border-b border-gray-300">
-          {Object.values(TABS).map((tabName) => (
-            <li key={tabName} className="mb-[-1px]">
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <h1 className="text-2xl font-medium text-gray-900">PeerConnect</h1>
+          <button
+            onClick={onLogout}
+            className="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium transition-colors duration-150"
+            aria-label="Logout"
+          >
+            Logout
+          </button>
+        </div>
+        <nav className="-mb-px" aria-label="Main navigation">
+          <div className="flex space-x-8">
+            {Object.values(TABS).map((tabName) => (
               <button
-                onClick={() => onTabChange(tabName)}                className={`py-2 px-3 sm:px-4 text-base sm:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-150
-                  ${activeTab === tabName
-                    ? 'border-b-2 border-blue-500 text-blue-600'
-                    : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-400'
-                  }`}
+                key={tabName}
+                onClick={() => onTabChange(tabName)}
+                className={`${
+                  activeTab === tabName
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } py-4 px-1 border-b-2 font-medium text-sm transition-all duration-150`}
                 aria-current={activeTab === tabName ? "page" : undefined}
               >
                 {tabName}
               </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
+            ))}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }

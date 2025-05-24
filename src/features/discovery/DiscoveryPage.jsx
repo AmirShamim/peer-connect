@@ -108,7 +108,7 @@ function DiscoveryPage({ onConnectionsChange }) {
   };
 
   return (
-    <div className="p-4 md:p-6 bg-gray-50 min-h-full">
+    <div className=" md:p-6 bg-gray-50 min-h-full">
       <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 border-b pb-3">

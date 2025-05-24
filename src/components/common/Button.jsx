@@ -12,20 +12,20 @@ function Button({
   className = '',
   ariaLabel
 }) {
-  const baseClasses = 'font-medium rounded-md focus:outline-none focus:ring-2 transition duration-150 ease-in-out';
+  const baseClasses = 'font-medium rounded focus:outline-none focus:ring-1 transition-all duration-200 ease-in-out';
   
   const variantClasses = {
-    primary: 'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500',
-    secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-500',
-    success: 'bg-green-500 hover:bg-green-600 text-white focus:ring-green-500',
-    danger: 'bg-red-500 hover:bg-red-600 text-white focus:ring-red-500',
-    outline: 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500'
+    primary: 'bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-200',
+    secondary: 'bg-gray-50 hover:bg-gray-100 text-gray-700 focus:ring-gray-200',
+    success: 'bg-green-500 hover:bg-green-600 text-white focus:ring-green-200',
+    danger: 'bg-red-500 hover:bg-red-600 text-white focus:ring-red-200',
+    outline: 'bg-transparent border border-gray-200 text-gray-700 hover:bg-gray-50 focus:ring-gray-200'
   };
   
   const sizeClasses = {
-    small: 'py-1 px-3 text-sm',
+    small: 'py-1.5 px-3 text-sm',
     medium: 'py-2 px-4 text-base',
-    large: 'py-3 px-6 text-lg'
+    large: 'py-2.5 px-5 text-lg'
   };
   
   const widthClass = fullWidth ? 'w-full' : '';

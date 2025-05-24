@@ -46,7 +46,7 @@ function MyProfilePage() {
 
 
   return (
-    <div className="p-4 md:p-6 bg-gray-50 min-h-full">
+    <div className="p-4 md:p-6 bg-white  rounded-md">
       <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
       {isEditing ? (
         <ProfileForm
@@ -55,7 +55,7 @@ function MyProfilePage() {
           onCancel={() => setIsEditing(false)}
         />
       ) : (
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="p-6 rounded-lg shadow-md">
           <div className="flex justify-between items-start mb-6">
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">My Profile</h2>
             <button

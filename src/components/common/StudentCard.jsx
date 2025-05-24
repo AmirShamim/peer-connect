@@ -1,61 +1,69 @@
 import React from 'react';
 
-// Props:
-// - student: The student object
-// - onConnect: Function to call when "Connect" is clicked
-// - connectionStatus: 'connected', 'request_sent', 'not_connected' (or null/undefined)
 function StudentCard({ student, onConnect, connectionStatus }) {
   if (!student) {
     return null;
   }
 
   const handleConnectClick = () => {
-    if (onConnect && connectionStatus === 'not_connected') { // Only allow connect if not already connected/sent
+    if (onConnect && connectionStatus === 'not_connected') {
       onConnect(student);
     }
   };
 
   let buttonText = 'Connect';
-  let buttonDisabled = false;
-  let buttonClasses = "w-full bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-md text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors";
-
+  let buttonStyle = 'bg-blue-500 hover:bg-blue-600 text-white';
+  
   if (connectionStatus === 'connected') {
     buttonText = 'Connected';
-    buttonDisabled = true;
-    buttonClasses = "w-full bg-gray-400 text-gray-700 py-2 px-3 rounded-md text-sm font-medium cursor-not-allowed";
+    buttonStyle = 'bg-gray-100 text-gray-500 cursor-not-allowed';
   } else if (connectionStatus === 'request_sent') {
-    // Assuming auto-acceptance, 'request_sent' might be treated same as 'connected' for UI
-    // Or you could have a "Request Sent" state if you implement a pending phase
-    buttonText = 'Connected'; // Or "Request Sent"
-    buttonDisabled = true;
-    buttonClasses = "w-full bg-blue-400 text-white py-2 px-3 rounded-md text-sm font-medium cursor-not-allowed"; // Example for "Request Sent"
+    buttonText = 'Connected';
+    buttonStyle = 'bg-gray-100 text-gray-500 cursor-not-allowed';
   }
 
-
   return (
-    <div className="border p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow bg-white flex flex-col h-full">
-      <img
-        src={student.profilePicture || `https://i.pravatar.cc/150?u=${student.id}`}
-        alt={student.name}
-        className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-blue-200"
-        onError={(e) => { e.target.onerror = null; e.target.src=`https://i.pravatar.cc/150?u=${student.id}`; }}
-      />
-      <h3 className="text-xl font-semibold text-blue-600 text-center mb-1">{student.name}</h3>
-      <p className="text-sm text-gray-500 text-center mb-2">
-        {student.department} - Year {student.year}
-      </p>
-      <div className="text-xs text-gray-700 space-y-1 mb-3 flex-grow">
-        <p><strong>Skills:</strong> {student.skills || 'Not specified'}</p>
-        <p><strong>Projects:</strong> {student.projectAreas || 'Not specified'}</p>
-      </div>      <button
-        onClick={handleConnectClick}
-        disabled={buttonDisabled}
-        className={buttonClasses}
-        aria-label={`${buttonText} with ${student.name}`}
-        aria-disabled={buttonDisabled ? 'true' : undefined}
-      >
-        {buttonText}
-      </button>
+    <div className="relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col h-full">
+      <div className="aspect-w-1 aspect-h-1 bg-gray-100">
+        <img
+          src={student.profilePicture || `https://i.pravatar.cc/150?u=${student.id}`}
+          alt={student.name}
+          className="w-full h-40 object-cover"
+          onError={(e) => { e.target.onerror = null; e.target.src=`https://i.pravatar.cc/150?u=${student.id}`; }}
+        />
+      </div>
+      <div className="p-4 flex flex-col flex-grow">
+        <div className="flex-grow space-y-3">
+          <div>
+            <h3 className="font-medium text-gray-900">{student.name}</h3>
+            <p className="text-sm text-gray-500">
+              {student.department} · Year {student.year}
+            </p>
+          </div>
+          <div className="space-y-2">
+            {student.skills && (
+              <p className="text-sm text-gray-600 line-clamp-2">
+                <span className="font-medium">Skills:</span> {student.skills}
+              </p>
+            )}
+            {student.projectAreas && (
+              <p className="text-sm text-gray-600 line-clamp-2">
+                <span className="font-medium">Projects:</span> {student.projectAreas}
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="mt-4 pt-3 border-t border-gray-100">
+          <button
+            onClick={handleConnectClick}
+            disabled={connectionStatus !== 'not_connected'}
+            className={`w-full px-4 py-2 rounded-md text-sm font-medium transition-colors duration-150 ${buttonStyle}`}
+            aria-label={`${buttonText} with ${student.name}`}
+          >
+            {buttonText}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

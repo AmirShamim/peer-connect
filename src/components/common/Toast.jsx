@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-// Simple Toast component
-// Props:
-// - message: The message to display
-// - type: 'success', 'error', 'info' (for styling)
-// - duration: How long the toast stays visible (in ms)
-// - onClose: Function to call when toast is closed (e.g., to clear the message state)
 function Toast({ message, type = 'info', duration = 3000, onClose }) {
   const [visible, setVisible] = useState(false);
 
@@ -26,31 +20,36 @@ function Toast({ message, type = 'info', duration = 3000, onClose }) {
     return null;
   }
 
-  let bgColor = 'bg-blue-500'; // Default for info
-  if (type === 'success') {
-    bgColor = 'bg-green-500';
-  } else if (type === 'error') {
-    bgColor = 'bg-red-500';
-  }
+  const types = {
+    info: 'bg-white border-blue-500 text-gray-900',
+    success: 'bg-white border-green-500 text-gray-900',
+    error: 'bg-white border-red-500 text-gray-900'
+  };
+
   return (
     <div
-      className={`fixed bottom-5 right-5 ${bgColor} text-white py-3 px-6 rounded-lg shadow-lg transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed bottom-5 right-5 border-l-4 ${types[type]} py-3 px-4 rounded-md shadow-lg transition-all duration-300 transform ${
+        visible ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
+      }`}
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
     >
-      <span className="sr-only">{type} alert:</span>
-      {message}
-      <button
-        onClick={() => {
-          setVisible(false);
-          if (onClose) onClose();
-        }}
-        className="ml-4 text-xl font-semibold leading-none hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-75"
-        aria-label="Close notification"
-      >
-        &times;
-      </button>
+      <div className="flex items-center space-x-3">
+        <span className="text-sm font-medium">{message}</span>
+        <button
+          onClick={() => {
+            setVisible(false);
+            if (onClose) onClose();
+          }}
+          className="text-gray-400 hover:text-gray-600 transition-colors duration-150"
+          aria-label="Close notification"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }
