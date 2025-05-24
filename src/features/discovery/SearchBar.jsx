@@ -22,11 +22,10 @@ function SearchBar({
           className="flex-grow input-minimal"
           aria-label="Search for students"
           autoComplete="off"
-        />
-        <button
+        />        <button
           type="submit"
-          className="button-minimal bg-[#3B526F] hover:bg-[#1E2A3A] text-white"
-          disabled={isLoading && appliedSearchTerm !== searchTerm}
+          className="button-text button-minimal bg-[#3B526F] hover:bg-[#1E2A3A] text-white"
+          disabled={isLoading && appliedSeawrchTerm !== searchTerm}
           aria-label="Submit search"
           aria-busy={isLoading && searchTerm === appliedSearchTerm ? "true" : "false"}
         >

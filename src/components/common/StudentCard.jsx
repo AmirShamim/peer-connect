@@ -51,7 +51,7 @@ function StudentCard({ student, onConnect, onDisconnect, connectionStatus }) {
     buttonDisabled = true;
   } else if (connectionStatus === "connected") {
     buttonText = "Connected";
-    buttonStyle = "bg-gray-500 hover:bg-gray-600 text-white";
+    buttonStyle = "bg-gray-400 hover:bg-gray-600 text-black hover:text-white";
     buttonDisabled = false;
   } else if (connectionStatus === "request_sent") {
     buttonText = "Connected";
@@ -76,9 +76,8 @@ function StudentCard({ student, onConnect, onDisconnect, connectionStatus }) {
         />
       </div>
       <div className="p-4 flex flex-col flex-grow">
-        <div className="flex-grow space-y-3">
-          <div>
-            <h3 className="font-medium text-gray-900">{student.name}</h3>
+        <div className="flex-grow space-y-3">          <div>
+            <h3 className="card-title text-gray-900">{student.name}</h3>
             <p className="text-sm text-gray-500">
               {student.department} · Year {student.year}
             </p>
@@ -97,11 +96,10 @@ function StudentCard({ student, onConnect, onDisconnect, connectionStatus }) {
             )}
           </div>
         </div>{" "}
-        <div className="mt-4 pt-3 border-t border-gray-100">
-          <button
+        <div className="mt-4 pt-3 border-t border-gray-100">            <button
             onClick={handleConnectClick}
             disabled={buttonDisabled}
-            className={`w-full px-4 py-2 rounded-md cursor-pointer text-sm font-medium transition-colors duration-150 flex items-center justify-center ${buttonStyle}`}
+            className={`button-text w-full px-4 py-2 rounded-md cursor-pointer text-sm transition-colors duration-150 flex items-center justify-center ${buttonStyle}`}
             aria-label={`${buttonText} with ${student.name}`}
             aria-live="polite"
           >
@@ -133,10 +131,9 @@ function StudentCard({ student, onConnect, onDisconnect, connectionStatus }) {
       </div>
 
       {/* Confirmation Modal */}
-      {showConfirmation && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      {showConfirmation && (        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-sm mx-4 shadow-xl">
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="heading-modern text-lg text-gray-900 mb-2">
               Remove Connection
             </h3>
             <p className="text-sm text-gray-600 mb-4">
@@ -146,13 +143,13 @@ function StudentCard({ student, onConnect, onDisconnect, connectionStatus }) {
             <div className="flex space-x-3">
               <button
                 onClick={handleConfirmDisconnect}
-                className="flex-1 bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-150"
+                className="button-text flex-1 bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-md text-sm transition-colors duration-150"
               >
                 Remove
               </button>
               <button
                 onClick={handleCancelDisconnect}
-                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-150"
+                className="button-text flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm transition-colors duration-150"
               >
                 Cancel
               </button>

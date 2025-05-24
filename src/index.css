@@ -12,35 +12,97 @@
 
   body {
     @apply antialiased text-gray-900 bg-gray-50;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
+  /* Typography Hierarchy */
   h1, h2, h3, h4, h5, h6 {
     @apply font-medium tracking-tight;
+  }
+
+  /* Custom Typography Classes */
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+    background: linear-gradient(135deg, #101D2C 0%, #3B526F 50%, #748AA6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply text-xl md:text-2xl font-semibold tracking-tight text-[#1E2A3A];
+  }
+
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply text-lg font-medium tracking-tight text-gray-900;
+  }
+
+  .nav-text {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply font-medium tracking-wide;
+  }
+
+  .button-text {
+    font-family: 'Inter', sans-serif;
+    @apply font-medium tracking-wide;
+  }
+
+  .stats-number {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply text-2xl md:text-3xl font-bold tracking-tight;
+  }
+
+  .stats-label {
+    font-family: 'Inter', sans-serif;
+    @apply text-sm font-medium tracking-wide uppercase;
+  }
+
+  .heading-fancy {
+    font-family: 'Playfair Display', serif;
+    @apply font-semibold tracking-tight;
+  }
+
+  .heading-modern {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply font-medium tracking-tight;
+  }
+
+  .text-elegant {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .text-tech {
+    font-family: 'Space Grotesk', sans-serif;
   }
 }
 
 @layer components {
   .input-minimal {
-    width: 100%;
-    padding: 0.75rem 0.75rem;
-    background-color: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.375rem;
-    transition: all 0.2s;
+    @apply w-full px-3 py-2 bg-white border border-gray-300 rounded-md transition-all duration-200;
+  }
+
+  .input-minimal:focus {
+    @apply outline-none border-[#3B526F] ring-1 ring-[#3B526F];
   }
 
   .card-minimal {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.2s;
+    @apply bg-white rounded-lg shadow-sm transition-shadow duration-200;
+  }
+
+  .card-minimal:hover {
+    @apply shadow-md;
   }
 
   .button-minimal {
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    font-weight: 500;
-    transition: all 0.2s;
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-200;
+  }
+
+  .button-minimal:focus {
+    @apply outline-none ring-2 ring-[#3B526F];
   }
 }
 
@@ -49,49 +111,41 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Basic typography */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
-  letter-spacing: -0.025em;
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-/* Minimalistic form elements */
-.input-minimal {
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Gradient text effects */
+.gradient-text {
+  background: linear-gradient(135deg, #101D2C 0%, #3B526F 50%, #748AA6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated underline for links */
+.fancy-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.fancy-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3B526F, #748AA6);
+  transition: width 0.3s ease-in-out;
+}
+
+.fancy-underline:hover::after {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  background-color: white;
-  border: 1px solid rgb(229 231 235);
-  border-radius: 0.375rem;
-  transition: all 0.2s;
-}
-
-.input-minimal:focus {
-  outline: none;
-  border-color: rgb(var(--color-primary-medium));
-  box-shadow: 0 0 0 1px rgb(var(--color-primary-medium));
-}
-
-/* Card styles */
-.card-minimal {
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s;
-}
-
-.card-minimal:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-/* Button styles */
-.button-minimal {
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.button-minimal:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgb(var(--color-primary-medium));
 }

@@ -57,13 +57,12 @@ function MyProfilePage({ onProfileUpdate }) {
           onSave={handleSaveProfile}
           onCancel={() => setIsEditing(false)}
         />
-      ) : (
-        <div className="p-6 rounded-lg shadow-md">
+      ) : (        <div className="p-6 rounded-lg shadow-md">
           <div className="flex justify-between items-start mb-6">
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">My Profile</h2>
+            <h2 className="page-title text-2xl md:text-3xl text-gray-800">My Profile</h2>
             <button
               onClick={handleEditToggle}
-              className="px-4 py-2 bg-[#3B526F] hover:bg-[#1E2A3A] text-white text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#748AA6]"
+              className="button-text px-4 py-2 bg-[#3B526F] hover:bg-[#1E2A3A] text-white text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#748AA6] transition-all duration-200"
             >
               Edit Profile
             </button>
@@ -75,24 +74,21 @@ function MyProfilePage({ onProfileUpdate }) {
               alt={profile.name || 'User profile'}
               className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-[#748AA6]/30 shadow-md"
               onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150/3B526F/FFFFFF?Text=User'; }} // Fallback for broken image links
-            />
-            <div className="text-center sm:text-left">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-700">{profile.name || 'Your Name'}</h3>
-              <p className="text-md text-gray-600">{profile.department || 'Your Department'}</p>
+            />            <div className="text-center sm:text-left">
+              <h3 className="heading-fancy text-xl md:text-2xl text-gray-700">{profile.name || 'Your Name'}</h3>
+              <p className="text-tech text-md text-gray-600">{profile.department || 'Your Department'}</p>
               {profile.year && <p className="text-sm text-gray-500">Year: {profile.year}</p>}
             </div>
-          </div>
-
-          {profile.bio && (
+          </div>          {profile.bio && (
             <div className="mb-4">
-              <h4 className="text-lg font-semibold text-gray-700 mb-1">Bio</h4>
+              <h4 className="heading-modern text-lg text-gray-700 mb-1">Bio</h4>
               <p className="text-gray-600 whitespace-pre-wrap">{profile.bio}</p>
             </div>
           )}
 
           {profile.skills && (
             <div className="mb-4">
-              <h4 className="text-lg font-semibold text-gray-700 mb-1">Skills</h4>
+              <h4 className="heading-modern text-lg text-gray-700 mb-1">Skills</h4>
               {/* For now, just display as text. Later, this can be styled tags. */}
               <p className="text-gray-600">{profile.skills}</p>
             </div>
@@ -100,7 +96,7 @@ function MyProfilePage({ onProfileUpdate }) {
 
           {profile.projectAreas && (
             <div>
-              <h4 className="text-lg font-semibold text-gray-700 mb-1">Project Areas of Interest</h4>
+              <h4 className="heading-modern text-lg text-gray-700 mb-1">Project Areas of Interest</h4>
               {/* For now, just display as text. Later, this can be styled tags. */}
               <p className="text-gray-600">{profile.projectAreas}</p>
             </div>

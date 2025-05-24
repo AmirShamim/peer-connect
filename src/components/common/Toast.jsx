@@ -33,9 +33,8 @@ function Toast({ message, type = 'info', duration = 3000, onClose }) {
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
-    >
-      <div className="flex items-center space-x-3">
-        <span className="text-sm font-medium">{message}</span>
+    >      <div className="flex items-center space-x-3">
+        <span className="button-text text-sm">{message}</span>
         <button
           onClick={() => {
             setVisible(false);

@@ -12,7 +12,7 @@ function Button({
   className = '',
   ariaLabel
 }) {
-  const baseClasses = 'font-medium rounded focus:outline-none focus:ring-1 transition-all duration-200 ease-in-out';
+  const baseClasses = 'button-text rounded focus:outline-none focus:ring-1 transition-all duration-200 ease-in-out';
   
   const variantClasses = {
     primary: 'bg-[#3B526F] hover:bg-[#1E2A3A] text-white focus:ring-[#748AA6]',

@@ -81,8 +81,7 @@ function DashboardPage({ onLogout }) {
   // ...existing code...
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-      <header className="mb-6 pb-4 border-b border-gray-200">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">          <h1 className="text-3xl sm:text-4xl font-bold text-[#3B526F]">
+      <header className="mb-6 pb-4 border-b border-gray-200">        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">          <h1 className="page-title text-3xl sm:text-4xl">
             PeerConnect
           </h1>
           <button
@@ -96,8 +95,7 @@ function DashboardPage({ onLogout }) {
           <ul className="flex flex-wrap space-x-2 sm:space-x-4 border-b border-gray-300">
             {Object.values(TABS).map((tabName) => (
               <li key={tabName} className="mb-[-1px]">
-                <button
-                  onClick={() => handleTabChange(tabName)}                  className={`py-2 px-3 sm:px-4 text-base sm:text-lg font-medium focus:outline-none transition-colors duration-150 cursor-pointer
+                <button                  onClick={() => handleTabChange(tabName)}                  className={`nav-text py-2 px-3 sm:px-4 text-base sm:text-lg focus:outline-none transition-all duration-200 cursor-pointer
                     ${
                       activeTab === tabName
                         ? "border-b-2 border-[#3B526F] text-[#3B526F]" 
@@ -115,25 +113,24 @@ function DashboardPage({ onLogout }) {
       <main className="mt-6 md:flex md:gap-6">
         <div className="flex-grow md:w-2/3 lg:w-3/4">{renderContent()}</div>
         <div className="w-full md:w-1/3 lg:w-1/4 mt-6 md:mt-0 md:sticky md:top-6 self-start">
-          <div className="p-6 bg-white shadow-lg rounded-lg border border-gray-200">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-700">
+          <div className="p-6 bg-white shadow-lg rounded-lg border border-gray-200">            <h2 className="section-title text-xl sm:text-2xl mb-4 text-gray-700">
               Dashboard Stats
-            </h2>            <div className="space-y-4 text-center md:text-left">              <div className="p-4 bg-[#D9D9D9]/30 rounded-md shadow-sm">
-                <p className="text-3xl sm:text-4xl font-bold text-[#3B526F]">
+            </h2><div className="space-y-4 text-center md:text-left">              <div className="p-4 bg-[#D9D9D9]/30 rounded-md shadow-sm">
+                <p className="stats-number text-3xl sm:text-4xl text-[#3B526F]">
                   {dashboardStats.connections}
                 </p>
-                <p className="text-sm text-[#3B526F] mt-1">Connections</p>
+                <p className="stats-label text-sm text-[#3B526F] mt-1">Connections</p>
               </div>
               <div className="p-4 bg-[#748AA6]/20 rounded-md shadow-sm">
-                <p className="text-3xl sm:text-4xl font-bold text-[#3B526F]">
+                <p className="stats-number text-3xl sm:text-4xl text-[#3B526F]">
                   {dashboardStats.skillsMatched}
                 </p>
-                <p className="text-sm text-[#3B526F] mt-1">Skills Matched</p>
+                <p className="stats-label text-sm text-[#3B526F] mt-1">Skills Matched</p>
               </div>              <div className="p-4 bg-[#D9D9D9]/30 rounded-md shadow-sm">
-                <p className="text-3xl sm:text-4xl font-bold text-[#3B526F]">
+                <p className="stats-number text-3xl sm:text-4xl text-[#3B526F]">
                   {dashboardStats.projectTags}
                 </p>
-                <p className="text-sm text-[#3B526F] mt-1">Shared Project Areas</p>
+                <p className="stats-label text-sm text-[#3B526F] mt-1">Shared Project Areas</p>
               </div>
             </div>
           </div>

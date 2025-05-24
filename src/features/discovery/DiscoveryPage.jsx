@@ -123,13 +123,12 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
   return (
     <div className=" md:p-6 bg-gray-50 min-h-full">
       <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 border-b pb-3">
+      <div className="bg-white p-6 rounded-lg shadow-md">        <h2 className="page-title text-2xl md:text-3xl mb-6 text-gray-800 border-b pb-3">
           Browse Students
         </h2>
 
         {/* Search and Filter Section (from previous correct version) */}        <div className="mb-6 p-4 border rounded-md bg-gray-50 shadow-sm" role="search" aria-labelledby="search-heading">
-          <h3 id="search-heading" className="text-lg font-medium text-gray-800 mb-3">Search and Filter</h3>
+          <h3 id="search-heading" className="section-title text-lg text-gray-800 mb-3">Search and Filter</h3>
           <form onSubmit={handleSearchSubmit} className="mb-4">
             <label htmlFor="search-students" className="block text-sm font-medium text-gray-700 mb-1">Search students</label>
             <div className="flex flex-col sm:flex-row gap-3">
@@ -142,10 +141,9 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
                 className="flex-grow p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:border-[#3B526F]"
                 aria-label="Search for students"
                 autoComplete="off"
-              />
-              <button
+              />              <button
                 type="submit"
-                className="bg-[#3B526F] hover:bg-[#1E2A3A] text-white font-semibold py-3 px-5 rounded-md focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:ring-opacity-50 transition duration-150 ease-in-out"
+                className="button-text bg-[#3B526F] hover:bg-[#1E2A3A] text-white py-3 px-5 rounded-md focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:ring-opacity-50 transition duration-150 ease-in-out"
                 disabled={isLoading && appliedSearchTerm !== searchTerm}
                 aria-label="Submit search"
                 aria-busy={isLoading && searchTerm === appliedSearchTerm ? "true" : "false"}

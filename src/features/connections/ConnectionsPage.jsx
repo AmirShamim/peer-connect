@@ -73,22 +73,20 @@ function ConnectionsPage({
         type={toastType}
         onClose={() => setToastMessage("")}
       />
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center mb-6 border-b pb-3">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
+      <div className="bg-white p-6 rounded-lg shadow-md">        <div className="flex justify-between items-center mb-6 border-b pb-3">
+          <h2 className="page-title text-2xl md:text-3xl text-gray-800">
             My Connections
           </h2>
-          <span className="text-sm text-gray-500">
+          <span className="stats-label text-sm text-gray-500">
             {connections.length}{" "}
             {connections.length === 1 ? "Connection" : "Connections"}
           </span>
         </div>
 
-        {connections.length === 0 ? (
-          <div className="text-center py-10">
-            <p className="text-gray-600 text-lg mb-4">
+        {connections.length === 0 ? (          <div className="text-center py-10">
+            <p className="text-elegant text-gray-600 text-lg mb-4">
               You haven't made any connections yet.
-            </p>{" "}            <Button className="cursor-pointer"
+            </p>{" "}            <Button className="cursor-pointer button-text"
               variant="primary"
               onClick={() => {
                 if (onTabChange) {

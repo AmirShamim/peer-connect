@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function AuthPage({ onLoginSuccess }) {
   // For a real app, you'd have username/password fields
@@ -16,12 +16,19 @@ function AuthPage({ onLoginSuccess }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md text-center">        <h1 className="text-3xl font-bold text-[#3B526F] mb-6">Welcome to PeerConnect</h1>
-        <p className="text-gray-600 mb-8">
+      {" "}
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md text-center">
+        {" "}
+        <h1 className="page-title text-3xl text-[#3B526F] mb-6">
+          Welcome to PeerConnect
+        </h1>
+        <p className="text-elegant text-gray-600 mb-8">
           Connect with fellow students, share ideas, and build your network.
         </p>
         {/* Simulated Login Form */}
-        <div className="space-y-4">          <div>
+        <div className="space-y-4">
+          {" "}
+          <div>
             <label
               htmlFor="mockUser"
               className="block text-sm font-medium text-gray-700 mb-1"
@@ -54,22 +61,25 @@ function AuthPage({ onLoginSuccess }) {
               aria-label="Demo password"
               aria-readonly="true"
             />
-          </div>          <button
+          </div>{" "}
+          <button
             onClick={handleSimulatedLogin}
             disabled={isLoading}
-            className="w-full bg-[#3B526F] hover:bg-[#1E2A3A] text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:ring-opacity-50 disabled:opacity-50"
+            className="button-text w-full bg-[#3B526F] hover:bg-[#1E2A3A] text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-[#748AA6] focus:ring-opacity-50 disabled:opacity-50 transition-all duration-200"
             aria-busy={isLoading ? "true" : "false"}
             aria-live="polite"
           >
-            {isLoading ? 'Logging In...' : 'Login as Mock Student'}
+            {isLoading ? "Logging In..." : "Login as Mock Student"}
           </button>
         </div>
         <p className="mt-6 text-xs text-gray-500">
           This is a simulated login. No actual authentication is performed.
         </p>
       </div>
-       <footer className="text-center mt-8 text-gray-600 text-sm">
-        <p>&copy; {new Date().getFullYear()} PeerConnect. All rights reserved.</p>
+      <footer className="text-center mt-8 text-gray-600 text-sm">
+        <p>
+          &copy; {new Date().getFullYear()} PeerConnect. All rights reserved.
+        </p>
       </footer>
     </div>
   );
