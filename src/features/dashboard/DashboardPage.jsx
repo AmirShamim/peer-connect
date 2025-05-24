@@ -62,10 +62,10 @@ function DashboardPage({ onLogout }) {
           }}
           className="w-full"
         >
-          {/* Pass connectionCount as a trigger prop */}
-          <ConnectionsPage
+          {/* Pass connectionCount as a trigger prop */}          <ConnectionsPage
             onConnectionsChange={updateDashboardStats}
             connectionCountTrigger={connectionCount}
+            onTabChange={handleTabChange}
           />
         </div>
       </>

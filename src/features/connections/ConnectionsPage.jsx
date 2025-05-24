@@ -7,8 +7,8 @@ import StudentCard from "../../components/common/StudentCard";
 import Toast from "../../components/common/Toast";
 import Button from "../../components/common/Button";
 
-// Accept connectionCountTrigger prop
-function ConnectionsPage({ onConnectionsChange, connectionCountTrigger }) {
+// Accept connectionCountTrigger prop and onTabChange callback
+function ConnectionsPage({ onConnectionsChange, connectionCountTrigger, onTabChange }) {
   const [connections, setConnections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState("");
@@ -144,14 +144,12 @@ function ConnectionsPage({ onConnectionsChange, connectionCountTrigger }) {
           <div className="text-center py-10">
             <p className="text-gray-600 text-lg mb-4">
               You haven't made any connections yet.
-            </p>
-            <Button
+            </p>            <Button
               variant="primary"
               onClick={() => {
-                // This should ideally use a router or a callback to change the active tab in DashboardPage
-                console.log(
-                  "Navigate to browse students - implement tab change"
-                );
+                if (onTabChange) {
+                  onTabChange("Browse Students");
+                }
               }}
             >
               Start Browsing Students

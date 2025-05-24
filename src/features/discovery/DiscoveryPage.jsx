@@ -15,9 +15,9 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
 
   const [departmentFilter, setDepartmentFilter] = useState('');
   const [availableDepartments, setAvailableDepartments] = useState([]);
-
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('info');
+  const [forceUpdate, setForceUpdate] = useState(0); // Add this for forcing re-renders
 
   const fetchStudents = useCallback(async (
     pageToFetch,
@@ -44,9 +44,15 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
     }
   }, [appliedSearchTerm, departmentFilter]);
 
+  // Fetch students when search term or filters change
   useEffect(() => {
     fetchStudents(1, false, appliedSearchTerm, { department: departmentFilter });
-  }, [appliedSearchTerm, departmentFilter, fetchStudents, connectionCountTrigger]); // Add connectionCountTrigger
+  }, [appliedSearchTerm, departmentFilter, fetchStudents]);
+
+  // Force re-render when connection count changes (without refetching)
+  useEffect(() => {
+    setForceUpdate(prev => prev + 1);
+  }, [connectionCountTrigger]);
 
   useEffect(() => {
     if (availableDepartments.length === 0) {
@@ -77,7 +83,6 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
       }
     }
   };
-
   const handleConnect = (studentToConnect) => {
     const status = checkConnectionStatus(studentToConnect.id);
 
@@ -92,10 +97,8 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
       addSentRequest(studentToConnect.id);
       setToastMessage(`Connection request sent to ${studentToConnect.name}! (Auto-accepted)`);
       setToastType('success');
-      // Force re-render of students to update connection status on cards
-      // This is a simple way; a more optimized way might involve updating only the specific student's status
-      setStudents(prevStudents => prevStudents.map(s => s.id === studentToConnect.id ? {...s, connectionStatusUpdate: Date.now()} : s)); // Trigger re-render for this card
-      if (onConnectionsChange) { // Call the callback from DashboardPage
+      // Call the callback from DashboardPage to update connection count
+      if (onConnectionsChange) {
         onConnectionsChange();
       }
     } else {
@@ -164,13 +167,11 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
         )}
         {!isLoading && students.length === 0 && (
           <p className="text-gray-600 text-center py-10 text-lg">No students found matching your criteria.</p>
-        )}
-
-        {students.length > 0 && (
+        )}        {students.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {students.map((student) => (
               <StudentCard
-                key={student.id}
+                key={`${student.id}-${connectionCountTrigger}`}
                 student={student}
                 onConnect={handleConnect}
                 connectionStatus={checkConnectionStatus(student.id)} // Pass current status

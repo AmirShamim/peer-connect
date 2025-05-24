@@ -55,9 +55,15 @@ export const addConnection = (student) => { // student is the full student objec
 
 export const removeConnection = (studentId) => {
   try {
+    // Remove from accepted connections
     let connections = getAcceptedConnections();
     connections = connections.filter(conn => conn.id !== studentId);
     localStorage.setItem(ACCEPTED_CONNECTIONS_KEY, JSON.stringify(connections));
+    
+    // Also remove from sent requests to allow reconnection
+    let sentRequests = getSentRequests();
+    sentRequests = sentRequests.filter(id => id !== studentId);
+    localStorage.setItem(SENT_REQUESTS_KEY, JSON.stringify(sentRequests));
   } catch (error) {
     console.error("Error removing connection:", error);
   }
