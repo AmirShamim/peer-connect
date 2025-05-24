@@ -33,7 +33,7 @@ function AuthPage({ onLoginSuccess }) {
               htmlFor="mockUser"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Username (mock)
+              Username
             </label>
             <input
               type="text"
@@ -50,7 +50,7 @@ function AuthPage({ onLoginSuccess }) {
               htmlFor="mockPassword"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Password (mock)
+              Password
             </label>
             <input
               type="password"
