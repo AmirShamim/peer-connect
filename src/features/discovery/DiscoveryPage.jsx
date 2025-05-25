@@ -84,7 +84,8 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
   };  const handleConnect = (studentToConnect) => {
     const status = checkConnectionStatus(studentToConnect.id);
 
-    if (status === 'connected' || status === 'request_sent') { // Check both
+    // if already connected or request sent, just show a message and bail out
+    if (status === 'connected' || status === 'request_sent') {
       setToastMessage(`You are already connected with ${studentToConnect.name}.`);
       setToastType('info');
       return;
@@ -95,7 +96,7 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
       addSentRequest(studentToConnect.id);
       setToastMessage(`Connection request sent to ${studentToConnect.name}! (Auto-accepted)`);
       setToastType('success');
-      // Call the callback from DashboardPage to update connection count
+      // let the dashboard know something changed
       if (onConnectionsChange) {
         onConnectionsChange();
       }
@@ -110,11 +111,11 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
     if (student) {
       setToastMessage(`Removed connection with ${student.name}.`);
       setToastType('success');
-      // Call the callback from DashboardPage to update connection count
+      // let the dashboard know something changed
       if (onConnectionsChange) {
         onConnectionsChange();
       }
-      // Force re-render to update connection status
+      // force a re-render so the UI updates
       setForceUpdate(prev => prev + 1);
     }
   };

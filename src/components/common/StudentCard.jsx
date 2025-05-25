@@ -69,6 +69,7 @@ function StudentCard({ student, onConnect, onDisconnect, connectionStatus }) {
           }
           alt={student.name}
           className="w-full h-40 object-cover"
+          // use a random avatar if no profile pic, fallback to pravatar if broken
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = `https://i.pravatar.cc/150?u=${student.id}`;

@@ -27,7 +27,7 @@ function Toast({ message, type = 'info', duration = 3000, onClose }) {
 
   return (
     <div
-      className={`fixed bottom-5 right-5 border-l-4 ${types[type]} py-3 px-4 rounded-md shadow-lg transition-all duration-300 transform ${
+      className={`fixed z-50 bottom-5 right-5 border-l-4 ${types[type]} py-3 px-4 rounded-md shadow-lg transition-all duration-300 transform ${
         visible ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
       }`}
       role="alert"
