@@ -1,4 +1,4 @@
-// Implementation for Button.jsx
+// reusable button component - trying to keep things DRY
 import React from 'react';
 
 function Button({ 

@@ -1,10 +1,10 @@
-// ...existing code...
-import { useState, useEffect, useCallback } from "react"; // Ensure useCallback is imported
-import { getDashboardStats } from "../../services/connectionService"; // Import service to get stats
+// OK so I'm trying to import all the React stuff I need here
+import { useState, useEffect, useCallback } from "react"; // had to add useCallback because I kept forgetting it exists lol
+import { getDashboardStats } from "../../services/connectionService"; // this gets the numbers for the sidebar stats
 import MyProfilePage from "../profile/MyProfilePage";
 import DiscoveryPage from "../discovery/DiscoveryPage";
 import ConnectionsPage from "../connections/ConnectionsPage";
-// ...existing code...
+// I think that's all the imports I need... hopefully
 
 const TABS = {
   MY_PROFILE: "My Profile",
@@ -19,8 +19,8 @@ function DashboardPage({ onLogout }) {
     skillsMatched: 0,
     projectTags: 0,
   });
-
-  // This function will be called by child components when connections change
+  // this callback gets called whenever a child component changes connections
+  // took me forever to figure out why the stats weren't updating before I added this
   const updateDashboardStats = useCallback(async () => {
     try {
       const stats = getDashboardStats();
@@ -31,11 +31,11 @@ function DashboardPage({ onLogout }) {
         connections: 0,
         skillsMatched: 0,
         projectTags: 0,
-      }); // Fallback
+      }); // just in case something breaks, reset to zeros
     }
   }, []);
 
-  // Load initial stats when the component mounts
+  // runs once when the page loads to get initial numbers
   useEffect(() => {
     updateDashboardStats();
   }, [updateDashboardStats]);
@@ -83,8 +83,7 @@ function DashboardPage({ onLogout }) {
       </>
     );
   };
-
-  // DashboardPage component (return statement, etc.)
+  // alright here's where I actually render everything... fingers crossed it works
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <header className="mb-6 pb-4 border-b border-gray-200">
@@ -100,7 +99,7 @@ function DashboardPage({ onLogout }) {
           </button>
         </div>
         <nav className="mt-5">
-          <ul className="flex flex-wrap flex-colitems-center sm:flex-row space-x-2 sm:space-x-4 border-b border-gray-300">
+          <ul className="flex flex-wrap flex-col items-center sm:flex-row space-x-2 sm:space-x-4 border-b border-gray-300">
             {Object.values(TABS).map((tabName) => (
               <li key={tabName} className="mb-[-1px]">
                 <button

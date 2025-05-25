@@ -10,7 +10,7 @@ export const getProfile = () => {
       skills: '',
       projectAreas: '',
       bio: '',
-      profilePicture: '', // Added field
+      profilePicture: '', // adding this field because why not
     };
   } catch (error) {
     console.error("Error getting profile:", error);
@@ -21,7 +21,7 @@ export const getProfile = () => {
       skills: '',
       projectAreas: '',
       bio: '',
-      profilePicture: '', // Added field
+      profilePicture: '', // fallback with the same field
     };
   }
 };

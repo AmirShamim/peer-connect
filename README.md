@@ -84,7 +84,7 @@ PeerConnect provides a dedicated platform where students can:
 
 ### Frontend Framework
 
-- **React 18.x** - Modern functional components with hooks
+- **React 19.x** - Modern functional components with hooks
 - **Vite** - Lightning-fast development and build tool
 - **JavaScript (ES6+)** - Clean, modern syntax and features
 

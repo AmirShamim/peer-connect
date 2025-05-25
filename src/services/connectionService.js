@@ -1,11 +1,11 @@
 const SENT_REQUESTS_KEY = 'peerConnectSentRequests';
 const ACCEPTED_CONNECTIONS_KEY = 'peerConnectAcceptedConnections';
 
-// --- Sent Requests (Optional, if you want to track them separately) ---
+// here I am dealing with localStorage again... hope this doesn't break. I broke it few times already
 export const getSentRequests = () => {
   try {
     const requests = localStorage.getItem(SENT_REQUESTS_KEY);
-    return requests ? JSON.parse(requests) : []; // Returns an array of student IDs
+    return requests ? JSON.parse(requests) : []; // just returns a list of student IDs
   } catch (error) {
     console.error("Error getting sent requests:", error);
     return [];
@@ -24,11 +24,11 @@ export const addSentRequest = (studentId) => {
   }
 };
 
-// --- Accepted Connections (Simulating auto-acceptance) ---
+// connections part - basically pretending everyone auto-accepts my requests lol
 export const getAcceptedConnections = () => {
   try {
-    // For this simulation, connections will be an array of student *objects*
-    // In a real app, you'd likely store IDs and fetch full profiles.
+    // storing full student objects instead of just IDs because I'm lazy
+    // probably should store IDs and fetch profiles but whatever, this works
     const connections = localStorage.getItem(ACCEPTED_CONNECTIONS_KEY);
     return connections ? JSON.parse(connections) : [];
   } catch (error) {
@@ -37,16 +37,16 @@ export const getAcceptedConnections = () => {
   }
 };
 
-export const addConnection = (student) => { // student is the full student object
+export const addConnection = (student) => { // student object gets passed in here
   try {
     const connections = getAcceptedConnections();
-    // Check if student is already a connection by ID
+    // make sure we don't add the same person twice (that would be awkward)
     if (!connections.find(conn => conn.id === student.id)) {
       connections.push(student);
       localStorage.setItem(ACCEPTED_CONNECTIONS_KEY, JSON.stringify(connections));
-      return true; // Indicate success
+      return true; // yay it worked!
     }
-    return false; // Already connected
+    return false; // oops, already connected
   } catch (error) {
     console.error("Error adding connection:", error);
     return false;
@@ -55,12 +55,12 @@ export const addConnection = (student) => { // student is the full student objec
 
 export const removeConnection = (studentId) => {
   try {
-    // Remove from accepted connections
+    // gotta remove them from both lists or things get weird
     let connections = getAcceptedConnections();
     connections = connections.filter(conn => conn.id !== studentId);
     localStorage.setItem(ACCEPTED_CONNECTIONS_KEY, JSON.stringify(connections));
     
-    // Also remove from sent requests to allow reconnection
+    // also removing from sent requests so I can reconnect later if I want
     let sentRequests = getSentRequests();
     sentRequests = sentRequests.filter(id => id !== studentId);
     localStorage.setItem(SENT_REQUESTS_KEY, JSON.stringify(sentRequests));
@@ -69,16 +69,16 @@ export const removeConnection = (studentId) => {
   }
 };
 
-// Helper to check if a connection request was already sent or if they are connected
+// figuring out what state each connection is in
 export const checkConnectionStatus = (studentId) => {
   const sent = getSentRequests().includes(studentId);
   const accepted = getAcceptedConnections().some(conn => conn.id === studentId);
   if (accepted) return 'connected';
-  if (sent) return 'request_sent'; // If you distinguish between sent and accepted
+  if (sent) return 'request_sent'; // not really using this much but whatever
   return 'not_connected';
 };
 
-// Get user's profile for skills matching
+// getting my own profile to compare skills
 const getUserProfile = () => {
   try {
     const profile = localStorage.getItem('peerConnectUserProfile');
@@ -91,16 +91,16 @@ const getUserProfile = () => {
   }
 };
 
-// Helper function to parse comma-separated skills/project areas
+// turns comma-separated strings into arrays (this was annoying to get right)
 const parseSkillsOrProjects = (skillsString) => {
   if (!skillsString) return [];
-  // Split by comma and ensure all parts are properly trimmed and lowercased
+  // splitting by comma and cleaning up spaces and making everything lowercase
   return skillsString.split(',')
     .map(skill => skill.trim().toLowerCase())
     .filter(skill => skill.length > 0);
 };
 
-// Calculate skills matched with connections
+// counting how many skills I have in common with my connections
 export const getSkillsMatched = () => {
   try {
     const connections = getAcceptedConnections();
@@ -109,13 +109,13 @@ export const getSkillsMatched = () => {
     
     if (userSkills.length === 0) return 0;
     
-    // Use a Set to track unique matched skills
+    // using a Set so I don't count the same skill twice
     const matchedSkills = new Set();
     
     connections.forEach(connection => {
       const connectionSkills = parseSkillsOrProjects(connection.skills);
       
-      // Find matching skills between user and this connection
+      // checking if we have any skills in common
       connectionSkills.forEach(skill => {
         if (userSkills.includes(skill)) {
           matchedSkills.add(skill);
@@ -130,7 +130,7 @@ export const getSkillsMatched = () => {
   }
 };
 
-// Calculate shared project tags with connections
+// same thing but for project areas instead of skills
 export const getProjectTags = () => {
   try {
     const connections = getAcceptedConnections();
@@ -139,13 +139,13 @@ export const getProjectTags = () => {
     
     if (userProjectAreas.length === 0) return 0;
     
-    // Use a Set to track unique shared project areas
+    // another Set to avoid duplicates
     const sharedProjectTags = new Set();
     
     connections.forEach(connection => {
       const connectionProjects = parseSkillsOrProjects(connection.projectAreas);
       
-      // Find matching project areas between user and this connection
+      // looking for shared project interests
       connectionProjects.forEach(project => {
         if (userProjectAreas.includes(project)) {
           sharedProjectTags.add(project);
@@ -160,7 +160,7 @@ export const getProjectTags = () => {
   }
 };
 
-// Get dashboard stats (consolidates all stats)
+// putting all the stats together for the dashboard
 export const getDashboardStats = () => {
   try {
     const connections = getAcceptedConnections();

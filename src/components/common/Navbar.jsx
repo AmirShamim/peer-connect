@@ -1,4 +1,4 @@
-// Implementation for Navbar.jsx
+// navbar component - keeping it simple for now
 import React from 'react';
 
 function Navbar({ activeTab, onTabChange, onLogout }) {

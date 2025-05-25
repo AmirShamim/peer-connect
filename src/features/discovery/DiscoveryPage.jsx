@@ -4,7 +4,7 @@ import { addConnection, addSentRequest, checkConnectionStatus } from '../../serv
 import StudentCard from '../../components/common/StudentCard';
 import Toast from '../../components/common/Toast';
 
-// Accept onConnectionsChange and connectionCountTrigger props
+// props for connection callbacks and triggers from parent
 function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
   const [students, setStudents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +17,7 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
   const [availableDepartments, setAvailableDepartments] = useState([]);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('info');
-  const [forceUpdate, setForceUpdate] = useState(0); // Add this for forcing re-renders
+  const [forceUpdate, setForceUpdate] = useState(0); // this helps force re-renders when needed
 
   const fetchStudents = useCallback(async (
     pageToFetch,
@@ -43,13 +43,12 @@ function DiscoveryPage({ onConnectionsChange, connectionCountTrigger }) {
       setIsLoading(false);
     }
   }, [appliedSearchTerm, departmentFilter]);
-
-  // Fetch students when search term or filters change
+  // refetch students when search or filters change
   useEffect(() => {
     fetchStudents(1, false, appliedSearchTerm, { department: departmentFilter });
   }, [appliedSearchTerm, departmentFilter, fetchStudents]);
 
-  // Force re-render when connection count changes (without refetching)
+  // this forces a re-render when connections change without refetching all data
   useEffect(() => {
     setForceUpdate(prev => prev + 1);
   }, [connectionCountTrigger]);

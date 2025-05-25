@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 
-function ProfileForm({ initialProfile, onSave, onCancel }) {
-  const [profile, setProfile] = useState({
+function ProfileForm({ initialProfile, onSave, onCancel }) {  const [profile, setProfile] = useState({
     name: '',
     year: '',
     department: '',
     skills: '',
     projectAreas: '',
     bio: '',
-    profilePicture: '', // Added field
+    profilePicture: '', // threw this in because profile pics are cool
     ...initialProfile,
   });
 
   useEffect(() => {
-    // Ensure form is updated if initialProfile changes (e.g., after first load)
+    // making sure the form updates when the profile data loads
     setProfile(prev => ({ ...prev, ...initialProfile }));
   }, [initialProfile]);
 

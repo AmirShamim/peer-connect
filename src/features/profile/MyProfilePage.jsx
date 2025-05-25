@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getProfile, saveProfile } from '../../services/profileService';
 import ProfileForm from '../../components/common/ProfileForm';
-import Toast from '../../components/common/Toast'; // Assuming you have a Toast component
+import Toast from '../../components/common/Toast'; // toast notifications for user feedback
 
 function MyProfilePage({ onProfileUpdate }) {
   const [profile, setProfile] = useState(null);
@@ -14,19 +14,18 @@ function MyProfilePage({ onProfileUpdate }) {
     const currentProfile = getProfile();
     setProfile(currentProfile);
     setIsLoading(false);
-    // If profile is empty, consider setting isEditing to true by default
+    // maybe auto-open the form if this is a new user? not sure yet
     if (!currentProfile.name && !currentProfile.department) {
-        // setIsEditing(true); // Optionally open form if profile is new/empty
+        // setIsEditing(true); // could be nice for new users
     }
   }, []);
   const handleSaveProfile = (updatedProfile) => {
     saveProfile(updatedProfile);
     setProfile(updatedProfile);
     setIsEditing(false);
-    setToastMessage('Profile updated successfully!');
-    setToastType('success');
+    setToastMessage('Profile updated successfully!');    setToastType('success');
     
-    // Notify the parent (DashboardPage) that the profile was updated
+    // letting the parent know something changed so it can update stats
     if (onProfileUpdate) {
       onProfileUpdate();
     }
@@ -41,10 +40,10 @@ function MyProfilePage({ onProfileUpdate }) {
   }
 
   if (!profile) {
-    // This case should ideally not be hit if getProfile always returns an object
+    // this probably shouldn't happen but just in case
     return <div className="p-6 text-center text-red-500">Could not load profile.</div>;
   }
-    // Fallback image if profilePicture is not set or is invalid
+    // default placeholder if no profile pic is set
   const profileImageUrl = profile.profilePicture || 'https://placehold.co/150x150/3B526F/FFFFFF/png?text=User';
 
 
@@ -73,7 +72,7 @@ function MyProfilePage({ onProfileUpdate }) {
               src={profileImageUrl}
               alt={profile.name || 'User profile'}
               className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-[#748AA6]/30 shadow-md"
-              onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150/3B526F/FFFFFF?Text=User'; }} // Fallback for broken image links
+              onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150/3B526F/FFFFFF?Text=User'; }} // backup image if the URL is broken
             />            <div className="text-center sm:text-left">
               <h3 className="heading-fancy text-xl md:text-2xl text-gray-700">{profile.name || 'Your Name'}</h3>
               <p className="text-tech text-md text-gray-600">{profile.department || 'Your Department'}</p>
